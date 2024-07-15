@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        table {
+            border: 1px solid black;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td {
+            border: 1px solid black;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Domains</th>
+            <!-- <th>CertKey</th>
+            <th>CertFullchain</th> -->
+            <th>ExpireAt</th>
+        </tr>
+        {{range $k,$v := .certs}}
+        <tr>
+            <td>
+                {{$v.Payload.CertificateName}}
+            </td>
+            <td>
+                {{$v.Payload.CertificateDomains}}
+            </td>
+            <!-- <td>
+                {{$v.Payload.CertificateCertKey}}
+            </td>
+            <td>
+                {{$v.Payload.CertificateFullchainCerts}}
+            </td> -->
+            <td date>
+                {{$v.Payload.CertificateExpireAt}}
+            </td>
+        </tr>
+        {{end}}
+    </table>
+
+    <script>
+        (() => {
+            document.querySelectorAll('[date]').forEach((item) => {
+                let d = new Date(Number(item.innerText))
+                item.innerHTML = `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDay()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`
+            })
+        })()
+    </script>
+</body>
+
+</html>
